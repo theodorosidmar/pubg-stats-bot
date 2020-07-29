@@ -1,5 +1,5 @@
 from os import getenv
-from pubg import get_players
+import pubg
 from discord.ext import commands
 
 TOKEN = getenv('DISCORD_TOKEN')
@@ -10,7 +10,9 @@ bot = commands.Bot(command_prefix=COMMAND_PREFIX)
 
 @bot.command(name='stats', help='Responds with players stats')
 async def stats(ctx, *players):
-    await ctx.send(get_players(players)[0:2000])
+    async with ctx.typing():
+        value = pubg.players(players)[0:2000]
+    await ctx.send(value)
 
 
 @bot.event
