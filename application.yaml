@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pubg-stats-bot
+spec:
+  project: pubg-stats-bot
+
+  source:
+    repoURL: https://github.com/theodorosidmar/pubg-stats-bot.git
+    targetRevision: HEAD
+    path: k8s
+  destination:
+    name: in-cluster
+    namespace: pubg-stats-bot-prd
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - PrunePropagationPolicy=foreground
+
+    automated:
+      selfHeal: true
