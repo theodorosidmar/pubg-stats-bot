@@ -41,7 +41,7 @@ class PubgClient {
         }
         install(Logging) {
             logger = Logger.DEFAULT
-            level = LogLevel.ALL
+            level = LogLevel.INFO
         }
         defaultRequest {
             bearerAuth(pubgApiKey)
@@ -49,17 +49,17 @@ class PubgClient {
         }
     }
 
-    suspend fun getLifetimeStats(player: String, gameMode: String): Stats? {
+    suspend fun getLifetimeStats(player: String, gameMode: GameMode): Stats? {
         val accountId: String = pubgClient.get("$PUBG_API_PATH$PLAYERS_PATH") {
             url {
                 parameters.append(FILTER_PLAYER_NAMES, player)
             }
         }.body<PlayerResponse>().data.first().id
-        val lifetime: LifetimeResponse = pubgClient.get("$PUBG_API_PATH/seasons/lifetime/gameMode/$gameMode-fpp/players") {
+        val lifetime: LifetimeResponse = pubgClient.get("$PUBG_API_PATH/seasons/lifetime/gameMode/${gameMode.id}/players") {
             url {
                 parameters.append(FILTER_PLAYER_IDS, accountId)
             }
         }.body()
-        return lifetime.data.first().attributes.gameModeStats["$gameMode-fpp"]
+        return lifetime.data.first().attributes.gameModeStats[gameMode.id]
     }
 }
