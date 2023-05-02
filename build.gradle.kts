@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_19
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "com.github.theodorosidmar.pubg"
+group = "com.github.theodorosidmar.pubgstats"
 
 plugins {
     kotlin(module = "jvm") version "1.8.21"
@@ -13,10 +13,14 @@ repositories {
 }
 
 dependencies {
+    // Kord
     implementation(group = "dev.kord", name = "kord-core", version = "0.9.0")
+
+    // Logging
     implementation(group = "org.slf4j", name = "slf4j-api", version = "2.0.7")
     runtimeOnly(group = "ch.qos.logback", name = "logback-classic", version = "1.4.7")
 
+    // Ktor (client)
     implementation(group = "io.ktor", name = "ktor-client-core", version = "2.3.0")
     implementation(group = "io.ktor", name = "ktor-client-cio", version = "2.3.0")
     implementation(group = "io.ktor", name = "ktor-client-logging", version = "2.3.0")
@@ -32,7 +36,7 @@ tasks {
 
     withType<Jar> {
         manifest {
-            attributes["Main-Class"] = "com.github.theodorosidmar.pubg.MainKt"
+            attributes["Main-Class"] = "com.github.theodorosidmar.pubgstats.MainKt"
         }
         val dependencies = configurations
             .runtimeClasspath
