@@ -1,9 +1,9 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_19
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_20
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin(module = "jvm") version "1.8.21"
-    kotlin(module = "plugin.serialization") version "1.8.21"
+    kotlin(module = "jvm") version "1.9.0-Beta"
+    kotlin(module = "plugin.serialization") version "1.9.0-Beta"
 }
 
 group = "com.github.theodorosidmar.pubg"
@@ -26,7 +26,7 @@ dependencies {
 tasks {
     withType<KotlinCompile> {
         compilerOptions {
-            jvmTarget.set(JVM_19)
+            jvmTarget.set(JVM_20)
         }
     }
 }
