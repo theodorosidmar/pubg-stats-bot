@@ -1,4 +1,4 @@
-package com.github.theodorosidmar.pubgstats.pubg
+package com.github.theodorosidmar.pubg
 
 enum class GameMode(val id: String) {
     Solo("solo-fpp"),

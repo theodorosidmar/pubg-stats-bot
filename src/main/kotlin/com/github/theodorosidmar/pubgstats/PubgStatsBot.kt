@@ -1,9 +1,9 @@
 package com.github.theodorosidmar.pubgstats
 
+import com.github.theodorosidmar.pubg.GameMode
+import com.github.theodorosidmar.pubg.PubgClient
+import com.github.theodorosidmar.pubg.Stats
 import com.github.theodorosidmar.pubgstats.commons.titlecase
-import com.github.theodorosidmar.pubgstats.pubg.GameMode
-import com.github.theodorosidmar.pubgstats.pubg.PubgClient
-import com.github.theodorosidmar.pubgstats.pubg.Stats
 import dev.kord.core.Kord
 import dev.kord.core.entity.Message
 import dev.kord.core.event.message.MessageCreateEvent
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory
 
 class PubgStatsBot(private val token: String) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val pubgClient = PubgClient()
+    private val pubgClient = PubgClient(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
 
     @OptIn(PrivilegedIntent::class)
     suspend fun init() {
@@ -52,7 +52,7 @@ private fun output(player: String, gameMode: String, stats: Stats): String = wit
     Dano causado: $damageDealt
     Distância dirigida: $rideDistance
     Distância nadada: $swimDistance
-    Distância percoridda: $walkDistance
+    Distância percorrida: $walkDistance
     Fogo amigo: $teamKills
     Headshot kills: $headshotKills
     Heals: $heals

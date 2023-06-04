@@ -1,4 +1,4 @@
-package com.github.theodorosidmar.pubgstats.pubg
+package com.github.theodorosidmar.pubg
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -16,8 +16,7 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.serialization
 import kotlinx.serialization.json.Json
 
-class PubgClient {
-    private val pubgApiKey = System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required")
+class PubgClient(private val pubgApiKey: String) {
     private companion object {
         const val PUBG_API_PATH = "https://api.pubg.com/shards/steam"
         const val PLAYERS_PATH = "/players"

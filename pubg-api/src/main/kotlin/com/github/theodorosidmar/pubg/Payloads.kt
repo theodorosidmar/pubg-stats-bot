@@ -1,4 +1,4 @@
-package com.github.theodorosidmar.pubgstats.pubg
+package com.github.theodorosidmar.pubg
 
 import kotlinx.serialization.Serializable
 

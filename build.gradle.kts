@@ -5,7 +5,6 @@ group = "com.github.theodorosidmar.pubgstats"
 
 plugins {
     kotlin(module = "jvm") version "1.8.21"
-    kotlin(module = "plugin.serialization") version "1.8.21"
 }
 
 repositories {
@@ -20,11 +19,8 @@ dependencies {
     implementation(group = "org.slf4j", name = "slf4j-api", version = "2.0.7")
     runtimeOnly(group = "ch.qos.logback", name = "logback-classic", version = "1.4.7")
 
-    // Ktor (client)
-    implementation(group = "io.ktor", name = "ktor-client-core", version = "2.3.0")
-    implementation(group = "io.ktor", name = "ktor-client-cio", version = "2.3.0")
-    implementation(group = "io.ktor", name = "ktor-client-logging", version = "2.3.0")
-    implementation(group = "io.ktor", name = "ktor-serialization-kotlinx-json", version = "2.3.0")
+    // PUBG API
+    implementation(group = "com.github.theodorosidmar.pubg", name = "pubg-api", version = "0.0.1")
 }
 
 tasks {
