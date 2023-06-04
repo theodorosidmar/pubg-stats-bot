@@ -19,12 +19,6 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
 open class DefaultPubgApi(private val pubgApiKey: String): PubgApi {
-    private companion object {
-        const val PUBG_API_PATH = "https://api.pubg.com/shards/steam"
-        const val PLAYERS_PATH = "/players"
-        const val FILTER_PLAYER_NAMES = "filter[playerNames]"
-        const val FILTER_PLAYER_IDS = "filter[playerIds]"
-    }
     private val pubgClient = HttpClient(CIO) {
         install(ContentNegotiation) {
             serialization(
@@ -51,12 +45,12 @@ open class DefaultPubgApi(private val pubgApiKey: String): PubgApi {
     }
 
     override suspend fun getLifetimeStats(player: String, gameMode: GameMode): Stats? = withContext(Dispatchers.IO) {
-        val accountId = pubgClient.get("$PUBG_API_PATH$PLAYERS_PATH") {
+        val accountId = pubgClient.get("$PUBG_STEAM_PATH$PLAYERS_PATH") {
             url {
                 parameters.append(FILTER_PLAYER_NAMES, player)
             }
         }.body<PlayerResponse>().data.first().id
-        val lifetime: LifetimeResponse = pubgClient.get("$PUBG_API_PATH/seasons/lifetime/gameMode/${gameMode.id}/players") {
+        val lifetime: LifetimeResponse = pubgClient.get("$PUBG_STEAM_PATH/seasons/lifetime/gameMode/${gameMode.id}/players") {
             url {
                 parameters.append(FILTER_PLAYER_IDS, accountId)
             }
