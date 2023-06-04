@@ -14,9 +14,11 @@ import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.serialization
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-class PubgClient(private val pubgApiKey: String) {
+open class DefaultPubgApi(private val pubgApiKey: String): PubgApi {
     private companion object {
         const val PUBG_API_PATH = "https://api.pubg.com/shards/steam"
         const val PLAYERS_PATH = "/players"
@@ -48,8 +50,8 @@ class PubgClient(private val pubgApiKey: String) {
         }
     }
 
-    suspend fun getLifetimeStats(player: String, gameMode: GameMode): Stats? {
-        val accountId: String = pubgClient.get("$PUBG_API_PATH$PLAYERS_PATH") {
+    override suspend fun getLifetimeStats(player: String, gameMode: GameMode): Stats? = withContext(Dispatchers.IO) {
+        val accountId = pubgClient.get("$PUBG_API_PATH$PLAYERS_PATH") {
             url {
                 parameters.append(FILTER_PLAYER_NAMES, player)
             }
@@ -59,6 +61,6 @@ class PubgClient(private val pubgApiKey: String) {
                 parameters.append(FILTER_PLAYER_IDS, accountId)
             }
         }.body()
-        return lifetime.data.first().attributes.gameModeStats[gameMode.id]
+        lifetime.data.first().attributes.gameModeStats[gameMode.id]
     }
 }

@@ -1,8 +1,11 @@
-package com.github.theodorosidmar.pubgstats
+package com.github.theodorosidmar.pubgstats.bot.discord
 
 import com.github.theodorosidmar.pubg.GameMode
-import com.github.theodorosidmar.pubg.PubgClient
+import com.github.theodorosidmar.pubg.PubgApi
+import com.github.theodorosidmar.pubg.DefaultPubgApi
 import com.github.theodorosidmar.pubg.Stats
+import com.github.theodorosidmar.pubgstats.bot.Command
+import com.github.theodorosidmar.pubgstats.bot.PubgStatsBot
 import com.github.theodorosidmar.pubgstats.commons.titlecase
 import dev.kord.core.Kord
 import dev.kord.core.entity.Message
@@ -12,25 +15,28 @@ import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
 import org.slf4j.LoggerFactory
 
-class PubgStatsBot(private val token: String) {
+class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val pubgClient = PubgClient(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
+    private val pubgClient: PubgApi = DefaultPubgApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
 
     @OptIn(PrivilegedIntent::class)
     suspend fun init() {
-        Kord(token = token).apply {
+        Kord(token).apply {
             on<MessageCreateEvent> {
                 if (!message.isValid()) return@on
                 val (command, player) = message.toCommandAndPlayerName()
-                pubgClient.getLifetimeStats(player, GameMode.valueOf(command.name.titlecase()))
-                    ?.let { output(player, command.name, it) }
-                    ?.run { message.channel.createMessage(this) }
+                val stats = getLifetimeStats(player, command)
+                message.channel.createMessage(stats)
             }
         }.login {
             intents += Intent.MessageContent
             logger.info("Logged in successfully")
         }
     }
+
+    override suspend fun getLifetimeStats(player: String, command: Command): String =
+        pubgClient.getLifetimeStats(player, GameMode.valueOf(command.name.titlecase()))
+            ?.let { output(player, command.name, it) }!!
 }
 
 typealias PlayerName = String

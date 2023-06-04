@@ -1,7 +1,7 @@
-package com.github.theodorosidmar.pubgstats
+package com.github.theodorosidmar.pubgstats.bot
 
 @JvmInline
-value class Command(val withPrefix: String) {
+value class Command(private val withPrefix: String) {
     companion object {
         private val allowedCommands: Set<String> = setOf("solo", "duo", "squad")
         const val prefix = "!"
