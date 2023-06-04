@@ -6,6 +6,7 @@ import com.github.theodorosidmar.pubg.DefaultPubgApi
 import com.github.theodorosidmar.pubg.Stats
 import com.github.theodorosidmar.pubgstats.bot.Command
 import com.github.theodorosidmar.pubgstats.bot.PubgStatsBot
+import com.github.theodorosidmar.pubgstats.commons.logger
 import com.github.theodorosidmar.pubgstats.commons.titlecase
 import dev.kord.core.Kord
 import dev.kord.core.entity.Message
@@ -13,10 +14,9 @@ import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
-import org.slf4j.LoggerFactory
 
 class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
-    private val logger = LoggerFactory.getLogger(this::class.java)
+    private val logger by logger()
     private val pubgClient: PubgApi = DefaultPubgApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
 
     @OptIn(PrivilegedIntent::class)
