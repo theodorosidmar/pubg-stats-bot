@@ -6,8 +6,8 @@ import com.github.theodorosidmar.pubg.DefaultPubgApi
 import com.github.theodorosidmar.pubg.Stats
 import com.github.theodorosidmar.pubgstats.bot.Command
 import com.github.theodorosidmar.pubgstats.bot.PubgStatsBot
-import com.github.theodorosidmar.pubgstats.commons.logger
-import com.github.theodorosidmar.pubgstats.commons.titlecase
+import com.github.theodorosidmar.pubgstats.bot.commons.logger
+import com.github.theodorosidmar.pubgstats.bot.commons.titlecase
 import dev.kord.core.Kord
 import dev.kord.core.entity.Message
 import dev.kord.core.event.message.MessageCreateEvent

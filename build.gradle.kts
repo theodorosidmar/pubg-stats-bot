@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_20
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "com.github.theodorosidmar.pubgstats"
+group = "com.github.theodorosidmar.pubgstats.bot"
 
 plugins {
     kotlin(module = "jvm") version "1.9.0-Beta"
@@ -32,7 +32,7 @@ tasks {
 
     withType<Jar> {
         manifest {
-            attributes["Main-Class"] = "com.github.theodorosidmar.pubgstats.MainKt"
+            attributes["Main-Class"] = "com.github.theodorosidmar.pubgstats.bot.discord.MainKt"
         }
         val dependencies = configurations
             .runtimeClasspath
