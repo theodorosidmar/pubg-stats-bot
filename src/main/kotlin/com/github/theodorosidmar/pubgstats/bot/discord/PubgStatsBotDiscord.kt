@@ -9,7 +9,6 @@ import com.github.theodorosidmar.pubgstats.bot.PubgStatsBot
 import com.github.theodorosidmar.pubgstats.bot.commons.logger
 import com.github.theodorosidmar.pubgstats.bot.commons.titlecase
 import dev.kord.core.Kord
-import dev.kord.core.entity.Message
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
@@ -37,16 +36,6 @@ class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
     override suspend fun getLifetimeStats(player: String, command: Command): String =
         pubgClient.getLifetimeStats(player, GameMode.valueOf(command.name.titlecase()))
             ?.let { output(player, command.name, it) }!!
-}
-
-typealias PlayerName = String
-
-private fun Message.isValid(): Boolean =
-    this.content.startsWith(Command.prefix) && !this.author?.isBot!!
-
-private fun Message.toCommandAndPlayerName(): Pair<Command, PlayerName> {
-    val (first, second) = this.content.split(' ', limit = 2)
-    return Command(first) to second
 }
 
 private fun output(player: String, gameMode: String, stats: Stats): String = with(stats) {
