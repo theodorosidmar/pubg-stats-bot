@@ -4,11 +4,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 group = "com.github.theodorosidmar.pubgstats.bot"
 
 plugins {
-    kotlin(module = "jvm") version "1.9.0-Beta"
+    kotlin(module = "jvm") version "1.9.0-RC"
 }
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -20,7 +21,7 @@ dependencies {
     runtimeOnly(group = "ch.qos.logback", name = "logback-classic", version = "1.4.7")
 
     // PUBG API
-    implementation(group = "com.github.theodorosidmar.pubg", name = "pubg-api", version = "0.0.1")
+    implementation(group = "pubgkt", name = "pubgkt-jvm", version = "0.0.1")
 }
 
 tasks {

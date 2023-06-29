@@ -1,5 +1,7 @@
 package com.github.theodorosidmar.pubgstats.bot
 
+import pubgkt.GameMode
+
 @JvmInline
 value class Command(private val withPrefix: String) {
     companion object {
@@ -12,4 +14,11 @@ value class Command(private val withPrefix: String) {
     }
 
     val name: String get() = withPrefix.removePrefix(prefix)
+
+    fun toGameMode(): GameMode = when (name) {
+        "solo" -> GameMode.SoloFpp
+        "duo" -> GameMode.DuoFpp
+        "squad" -> GameMode.SquadFpp
+        else -> throw NotImplementedError()
+    }
 }

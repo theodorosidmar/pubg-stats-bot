@@ -1,22 +1,19 @@
 package com.github.theodorosidmar.pubgstats.bot.discord
 
-import com.github.theodorosidmar.pubg.GameMode
-import com.github.theodorosidmar.pubg.PubgApi
-import com.github.theodorosidmar.pubg.DefaultPubgApi
-import com.github.theodorosidmar.pubg.Stats
 import com.github.theodorosidmar.pubgstats.bot.Command
 import com.github.theodorosidmar.pubgstats.bot.PubgStatsBot
 import com.github.theodorosidmar.pubgstats.bot.commons.logger
-import com.github.theodorosidmar.pubgstats.bot.commons.titlecase
 import dev.kord.core.Kord
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
+import pubgkt.PubgApi
+import pubgkt.Stats
 
 class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
     private val logger by logger()
-    private val pubgClient: PubgApi = DefaultPubgApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
+    private val pubgClient = PubgApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
 
     @OptIn(PrivilegedIntent::class)
     suspend fun init() {
@@ -34,8 +31,9 @@ class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
     }
 
     override suspend fun getLifetimeStats(player: String, command: Command): String =
-        pubgClient.getLifetimeStats(player, GameMode.valueOf(command.name.titlecase()))
-            ?.let { output(player, command.name, it) }!!
+        pubgClient.getLifetimeStats(player, command.toGameMode())
+            .getOrThrow()
+            .let { output(player, command.name, it) }
 }
 
 private fun output(player: String, gameMode: String, stats: Stats): String = with(stats) {
