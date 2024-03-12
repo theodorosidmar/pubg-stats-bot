@@ -1,5 +1,5 @@
 # PUBG Stats BOT
-See yout PUBG statistics at your favorite Discord channel.
+See your PUBG statistics at your favorite Discord channel.
 
 ## Under construction
 

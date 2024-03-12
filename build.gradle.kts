@@ -1,10 +1,10 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_20
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "com.github.theodorosidmar.pubgstats.bot"
+group = "dev.pubgstats"
 
 plugins {
-    kotlin(module = "jvm") version "1.9.0-RC"
+    kotlin(module = "jvm") version "1.9.23"
 }
 
 repositories {
@@ -14,11 +14,11 @@ repositories {
 
 dependencies {
     // Kord
-    implementation(group = "dev.kord", name = "kord-core", version = "0.9.0")
+    implementation(group = "dev.kord", name = "kord-core", version = "0.13.1")
 
     // Logging
-    implementation(group = "org.slf4j", name = "slf4j-api", version = "2.0.7")
-    runtimeOnly(group = "ch.qos.logback", name = "logback-classic", version = "1.4.7")
+    implementation(group = "org.slf4j", name = "slf4j-api", version = "2.0.9")
+    runtimeOnly(group = "ch.qos.logback", name = "logback-classic", version = "1.4.14")
 
     // PUBG API
     implementation(group = "pubgkt", name = "pubgkt-jvm", version = "0.0.1")
@@ -27,7 +27,7 @@ dependencies {
 tasks {
     withType<KotlinCompile> {
         compilerOptions {
-            jvmTarget.set(JVM_20)
+            jvmTarget.set(JVM_21)
         }
     }
 
