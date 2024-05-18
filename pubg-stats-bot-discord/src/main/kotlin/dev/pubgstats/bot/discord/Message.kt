@@ -1,7 +1,7 @@
-package com.github.theodorosidmar.pubgstats.bot.discord
+package dev.pubgstats.bot.discord
 
-import com.github.theodorosidmar.pubgstats.bot.Command
 import dev.kord.core.entity.Message
+import dev.pubgstats.bot.Command
 
 internal fun Message.isValid(): Boolean =
     this.content.startsWith(Command.prefix) && !this.author?.isBot!!

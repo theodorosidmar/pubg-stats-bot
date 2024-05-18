@@ -1,4 +1,4 @@
-package com.github.theodorosidmar.pubgstats.bot
+package dev.pubgstats.bot
 
 import pubgkt.GameMode
 

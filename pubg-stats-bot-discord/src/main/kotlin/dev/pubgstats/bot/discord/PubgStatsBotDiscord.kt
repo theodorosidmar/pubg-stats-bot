@@ -1,19 +1,19 @@
-package com.github.theodorosidmar.pubgstats.bot.discord
+package dev.pubgstats.bot.discord
 
-import com.github.theodorosidmar.pubgstats.bot.Command
-import com.github.theodorosidmar.pubgstats.bot.PubgStatsBot
-import com.github.theodorosidmar.pubgstats.bot.commons.logger
 import dev.kord.core.Kord
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
-import pubgkt.PubgApi
+import dev.pubgstats.bot.Command
+import dev.pubgstats.bot.PubgStatsBot
+import dev.pubgstats.bot.logger
+import pubgkt.PubgSteamApi
 import pubgkt.Stats
 
 class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
     private val logger by logger()
-    private val pubgClient = PubgApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
+    private val pubgClient = PubgSteamApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
 
     @OptIn(PrivilegedIntent::class)
     suspend fun init() {
