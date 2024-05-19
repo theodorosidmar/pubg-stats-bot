@@ -5,7 +5,7 @@ import pubgkt.GameMode
 @JvmInline
 value class Command(private val withPrefix: String) {
     companion object {
-        private val allowedCommands = setOf("solo", "duo", "squad")
+        private val allowedCommands = setOf("solo", "duo", "squad", "x1")
         const val prefix = "!"
     }
 
