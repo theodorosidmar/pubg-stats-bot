@@ -1,5 +1,6 @@
 [versions]
 kotlin = "1.9.24"
+kotlinDsl = "4.3.0"
 kord = "0.13.1"
 pubgkt = "0.0.1"
 slf4j = "2.0.9"
@@ -7,8 +8,10 @@ logback = "1.4.14"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-dsl = { id = "org.gradle.kotlin.kotlin-dsl", version.ref = "kotlinDsl" }
 
 [libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kord = { module = "dev.kord:kord-core", version.ref = "kord" }
 pubgkt = { module = "pubgkt:pubgkt-jvm", version.ref = "pubgkt" }
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
