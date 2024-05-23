@@ -1,7 +1,7 @@
 [versions]
-kotlin = "1.9.24"
-kotlinDsl = "4.3.0"
-kord = "0.13.1"
+kotlin = "2.0.0"
+kotlinDsl = "4.4.0"
+kord = "0.14.0"
 pubgkt = "0.0.1"
 slf4j = "2.0.9"
 logback = "1.4.14"
