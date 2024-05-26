@@ -7,10 +7,10 @@ import dev.pubgstats.bot.X1Command
 import pubgkt.GameMode
 
 internal fun Message.isValid(): Boolean =
-    this.content.startsWith("!") && !this.author?.isBot!!
+    content.startsWith("!") && !author?.isBot!!
 
 internal fun Message.toCommand(): Command {
-    val (command, arguments) = this.content.split(' ', limit = 2)
+    val (command, arguments) = content.split(' ', limit = 2)
     return if (command.lowercase() == "x1") {
         val (playerOne, playerTwo, gameMode) = arguments.split(' ')
         X1Command(

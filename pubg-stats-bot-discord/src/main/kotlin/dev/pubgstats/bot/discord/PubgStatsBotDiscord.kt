@@ -5,7 +5,6 @@ import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
-import dev.pubgstats.bot.Command
 import dev.pubgstats.bot.LifetimeCommand
 import dev.pubgstats.bot.PubgStatsBot
 import dev.pubgstats.bot.X1Command
@@ -27,12 +26,9 @@ class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
             on<MessageCreateEvent> {
                 if (!message.isValid()) return@on
                 val command = message.toCommand()
-                val response = if (command is X1Command) {
-                    val (_, first, second) = message.content.split(' ')
-                    x1(first, second, command)
-                } else {
-                    val (_, player) = message.content.split(' ', limit = 2)
-                    getLifetimeStats(player, command)
+                val response = when (command) {
+                    is X1Command -> x1(command)
+                    is LifetimeCommand -> getLifetimeStats(command)
                 }
                 message.channel.createMessage(response)
             }
@@ -42,27 +38,24 @@ class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
         }
     }
 
-    override suspend fun getLifetimeStats(player: String, command: Command): String =
-        with(command as LifetimeCommand) {
-            pubgClient.getLifetimeStats(player, command.gameMode)
-                .getOrThrow()
-                .let { outputGetLifetimeStats(player, command.gameMode.id, it) }
-        }
+    override suspend fun getLifetimeStats(command: LifetimeCommand): String =
+        pubgClient.getLifetimeStats(command.player, command.gameMode)
+            .getOrThrow()
+            .let { outputGetLifetimeStats(command.player, command.gameMode.id, it) }
 
-    override suspend fun x1(playerOne: String, playerTwo: String, command: Command): String {
-        command as X1Command
+    override suspend fun x1(command: X1Command): String {
         val (playerOneStats, playerTwoStats) =
             withContext(Dispatchers.IO) {
                 awaitAll(
-                    async { pubgClient.getLifetimeStats(playerOne, command.gameMode) },
-                    async { pubgClient.getLifetimeStats(playerTwo, command.gameMode) }
+                    async { pubgClient.getLifetimeStats(command.playerOne, command.gameMode) },
+                    async { pubgClient.getLifetimeStats(command.playerTwo, command.gameMode) }
                 )
             }
         return outputX1(
             command.gameMode.name,
-            playerOne,
+            command.playerOne,
             playerOneStats.getOrThrow(),
-            playerTwo,
+            command.playerTwo,
             playerTwoStats.getOrThrow(),
         )
     }
