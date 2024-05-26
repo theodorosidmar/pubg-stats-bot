@@ -7,16 +7,16 @@ import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
 import dev.pubgstats.bot.Command
 import dev.pubgstats.bot.PubgStatsBot
-import dev.pubgstats.bot.logger
 import kotlinx.coroutines.Dispatchers
 import pubgkt.PubgSteamApi
 import pubgkt.Stats
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import org.slf4j.LoggerFactory
 
 class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
-    private val logger by logger()
+    private val logger = LoggerFactory.getLogger(this::class.java)
     private val pubgClient = PubgSteamApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
 
     @OptIn(PrivilegedIntent::class)
