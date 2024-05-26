@@ -20,11 +20,8 @@ tasks {
             .runtimeClasspath
             .get()
             .map {
-                if (it.isDirectory) {
-                    it
-                } else {
-                    zipTree(it)
-                }
+                if (it.isDirectory) it
+                else zipTree(it)
             }
         from(dependencies)
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
