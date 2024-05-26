@@ -6,7 +6,9 @@ import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
 import dev.pubgstats.bot.Command
+import dev.pubgstats.bot.LifetimeCommand
 import dev.pubgstats.bot.PubgStatsBot
+import dev.pubgstats.bot.X1Command
 import kotlinx.coroutines.Dispatchers
 import pubgkt.PubgSteamApi
 import pubgkt.Stats
@@ -25,7 +27,7 @@ class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
             on<MessageCreateEvent> {
                 if (!message.isValid()) return@on
                 val command = message.toCommand()
-                val response = if (command.name == "x1") {
+                val response = if (command is X1Command) {
                     val (_, first, second) = message.content.split(' ')
                     x1(first, second, command)
                 } else {
@@ -41,21 +43,23 @@ class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
     }
 
     override suspend fun getLifetimeStats(player: String, command: Command): String =
-        pubgClient.getLifetimeStats(player, command.toGameMode())
-            .getOrThrow()
-            .let { outputGetLifetimeStats(player, command.name, it) }
+        with(command as LifetimeCommand) {
+            pubgClient.getLifetimeStats(player, command.gameMode)
+                .getOrThrow()
+                .let { outputGetLifetimeStats(player, command.gameMode.id, it) }
+        }
 
     override suspend fun x1(playerOne: String, playerTwo: String, command: Command): String {
-        val gameMode = Command("!squad").toGameMode()
+        command as X1Command
         val (playerOneStats, playerTwoStats) =
             withContext(Dispatchers.IO) {
                 awaitAll(
-                    async { pubgClient.getLifetimeStats(playerOne, gameMode) },
-                    async { pubgClient.getLifetimeStats(playerTwo, gameMode) }
+                    async { pubgClient.getLifetimeStats(playerOne, command.gameMode) },
+                    async { pubgClient.getLifetimeStats(playerTwo, command.gameMode) }
                 )
             }
         return outputX1(
-            gameMode.name,
+            command.gameMode.name,
             playerOne,
             playerOneStats.getOrThrow(),
             playerTwo,

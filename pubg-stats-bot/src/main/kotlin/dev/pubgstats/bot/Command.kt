@@ -2,23 +2,15 @@ package dev.pubgstats.bot
 
 import pubgkt.GameMode
 
-@JvmInline
-value class Command(private val withPrefix: String) {
-    companion object {
-        private val allowedCommands = setOf("solo", "duo", "squad", "x1")
-        const val prefix = "!"
-    }
+sealed class Command
 
-    init {
-        require(name in allowedCommands) { "Invalid command $name" }
-    }
+class X1Command(
+    val playerOne: String,
+    val playerTwo: String,
+    val gameMode: GameMode,
+) : Command()
 
-    val name: String get() = withPrefix.removePrefix(prefix)
-
-    fun toGameMode(): GameMode = when (name) {
-        "solo" -> GameMode.SoloFpp
-        "duo" -> GameMode.DuoFpp
-        "squad" -> GameMode.SquadFpp
-        else -> throw NotImplementedError()
-    }
-}
+class LifetimeCommand(
+    val player: String,
+    val gameMode: GameMode,
+) : Command()
