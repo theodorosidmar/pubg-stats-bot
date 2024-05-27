@@ -4,13 +4,13 @@ import pubgkt.GameMode
 
 sealed class Command
 
-class X1Command(
+data class X1Command(
     val playerOne: String,
     val playerTwo: String,
     val gameMode: GameMode,
 ) : Command()
 
-class LifetimeCommand(
+data class LifetimeCommand(
     val player: String,
     val gameMode: GameMode,
 ) : Command()

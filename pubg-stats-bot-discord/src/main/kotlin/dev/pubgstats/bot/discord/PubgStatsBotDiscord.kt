@@ -8,28 +8,23 @@ import dev.kord.gateway.PrivilegedIntent
 import dev.pubgstats.bot.LifetimeCommand
 import dev.pubgstats.bot.PubgStatsBot
 import dev.pubgstats.bot.X1Command
-import kotlinx.coroutines.Dispatchers
+import org.slf4j.LoggerFactory
 import pubgkt.PubgSteamApi
 import pubgkt.Stats
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.withContext
-import org.slf4j.LoggerFactory
 
-class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
+class PubgStatsBotDiscord(
+    private val token: String,
+) : PubgStatsBot(
+    pubgApi = PubgSteamApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
+) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val pubgClient = PubgSteamApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
 
     @OptIn(PrivilegedIntent::class)
     suspend fun init() {
         Kord(token).apply {
             on<MessageCreateEvent> {
                 if (!message.isValid()) return@on
-                val command = message.toCommand()
-                val response = when (command) {
-                    is X1Command -> x1(command)
-                    is LifetimeCommand -> getLifetimeStats(command)
-                }
+                val response = getResponse(message.content)
                 message.channel.createMessage(response)
             }
         }.login {
@@ -38,27 +33,20 @@ class PubgStatsBotDiscord(private val token: String) : PubgStatsBot {
         }
     }
 
-    override suspend fun getLifetimeStats(command: LifetimeCommand): String =
-        pubgClient.getLifetimeStats(command.player, command.gameMode)
-            .getOrThrow()
-            .let { outputGetLifetimeStats(command.player, command.gameMode.id, it) }
+    override suspend fun outputLifetime(command: LifetimeCommand, stats: Stats): String =
+        outputGetLifetimeStats(command.player, command.gameMode.id, stats)
 
-    override suspend fun x1(command: X1Command): String {
-        val (playerOneStats, playerTwoStats) =
-            withContext(Dispatchers.IO) {
-                awaitAll(
-                    async { pubgClient.getLifetimeStats(command.playerOne, command.gameMode) },
-                    async { pubgClient.getLifetimeStats(command.playerTwo, command.gameMode) }
-                )
-            }
-        return outputX1(
-            command.gameMode.name,
-            command.playerOne,
-            playerOneStats.getOrThrow(),
-            command.playerTwo,
-            playerTwoStats.getOrThrow(),
-        )
-    }
+    override suspend fun outputX1(
+        command: X1Command,
+        playerOneStats: Stats,
+        playerTwoStats: Stats,
+    ): String = outputX1(
+        command.gameMode.name,
+        command.playerOne,
+        playerOneStats,
+        command.playerTwo,
+        playerTwoStats,
+    )
 }
 
 private fun outputGetLifetimeStats(player: String, gameMode: String, stats: Stats): String = with(stats) {
