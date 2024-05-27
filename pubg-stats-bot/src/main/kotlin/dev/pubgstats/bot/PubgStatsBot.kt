@@ -9,6 +9,7 @@ import pubgkt.PubgApi
 import pubgkt.Stats
 
 abstract class PubgStatsBot(private val pubgApi: PubgApi) {
+    abstract val prefix: String?
     abstract suspend fun outputLifetime(command: LifetimeCommand, stats: Stats): String
     abstract suspend fun outputX1(command: X1Command, playerOneStats: Stats, playerTwoStats: Stats): String
 
@@ -25,10 +26,14 @@ abstract class PubgStatsBot(private val pubgApi: PubgApi) {
                     async { pubgApi.getLifetimeStats(command.playerTwo, command.gameMode) }
                 )
             }
-        return outputX1(command, playerOneStats.getOrThrow(), playerTwoStats.getOrThrow())
+        return outputX1(
+            command,
+            playerOneStats.getOrThrow(),
+            playerTwoStats.getOrThrow(),
+        )
     }
 
-    suspend fun getResponse(commandString: String): String =
+    suspend fun processMessage(commandString: String): String =
         commandString.toCommand().let {
             when (it) {
                 is X1Command -> getX1(it)
@@ -38,7 +43,7 @@ abstract class PubgStatsBot(private val pubgApi: PubgApi) {
 
     private fun String.toCommand(): Command {
         val (command, arguments) = this
-            .removePrefix("!")
+            .removePrefix(prefix.orEmpty())
             .split(' ')
             .let {
                 it.first() to it.drop(1)

@@ -17,6 +17,7 @@ class PubgStatsBotDiscord(
 ) : PubgStatsBot(
     pubgApi = PubgSteamApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
 ) {
+    override val prefix: String = "!"
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @OptIn(PrivilegedIntent::class)
@@ -24,7 +25,7 @@ class PubgStatsBotDiscord(
         Kord(token).apply {
             on<MessageCreateEvent> {
                 if (!message.isValid()) return@on
-                val response = getResponse(message.content)
+                val response = processMessage(message.content)
                 message.channel.createMessage(response)
             }
         }.login {
