@@ -5,52 +5,33 @@ import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
-import dev.pubgstats.bot.LifetimeCommand
-import dev.pubgstats.bot.PubgStatsBot
-import dev.pubgstats.bot.X1Command
 import org.slf4j.LoggerFactory
+import pubgkt.GameMode
 import pubgkt.PubgSteamApi
 import pubgkt.Stats
 
-class PubgStatsBotDiscord(
-    private val token: String,
-) : PubgStatsBot(
-    pubgApi = PubgSteamApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
-) {
-    override val prefix: String = "!"
+class PubgStatsBotDiscord(private val token: String) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val pubgApi = PubgSteamApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
 
     @OptIn(PrivilegedIntent::class)
     suspend fun init() {
         Kord(token).apply {
             on<MessageCreateEvent> {
-                if (!message.isValid()) return@on
-                val response = processMessage(message.content)
-                message.channel.createMessage(response)
+                if (message.isNotValid()) return@on
+                val player = message.content.split(' ').last()
+                val gameMode = GameMode.SquadFpp
+                val stats = pubgApi.getLifetimeStats(player, gameMode)
+                message.channel.createMessage(output(player, gameMode.name, stats.getOrThrow()))
             }
         }.login {
             intents += Intent.MessageContent
             logger.info("Logged in successfully")
         }
     }
-
-    override suspend fun outputLifetime(command: LifetimeCommand, stats: Stats): String =
-        outputGetLifetimeStats(command.player, command.gameMode.id, stats)
-
-    override suspend fun outputX1(
-        command: X1Command,
-        playerOneStats: Stats,
-        playerTwoStats: Stats,
-    ): String = outputX1(
-        command.gameMode.name,
-        command.playerOne,
-        playerOneStats,
-        command.playerTwo,
-        playerTwoStats,
-    )
 }
 
-private fun outputGetLifetimeStats(player: String, gameMode: String, stats: Stats): String = with(stats) {
+private fun output(player: String, gameMode: String, stats: Stats): String = with(stats) {
     """
     Estatísticas de $player desde sempre no modo $gameMode-fpp:
     Armas looteadas: $weaponsAcquired
@@ -78,20 +59,4 @@ private fun outputGetLifetimeStats(player: String, gameMode: String, stats: Stat
     Top 10: $top10s
     Veículos destruídos: $vehicleDestroys
     """.trimIndent()
-}
-
-private fun outputX1(
-    gameMode: String,
-    playerOne: String,
-    playerOneStats: Stats,
-    playerTwo: String,
-    playerTwoStats: Stats,
-): String {
-    var output = "Jogando $gameMode, o"
-    output += if (playerOneStats.kills > playerTwoStats.kills) {
-        " $playerOne matou mais do que o $playerTwo. ${playerOneStats.kills} kills contra ${playerTwoStats.kills}"
-    } else {
-        " $playerTwo matou mais do que o $playerOne. ${playerTwoStats.kills} kills contra ${playerOneStats.kills}"
-    }
-    return output
 }

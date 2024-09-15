@@ -2,7 +2,7 @@ group = "dev.pubgstats.bot.discord"
 
 dependencies {
     // Stats bot
-    implementation(project(":pubg-stats-bot"))
+    implementation(libs.pubgkt)
 
     // Kord
     implementation(libs.kord)

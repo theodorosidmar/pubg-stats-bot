@@ -8,6 +8,5 @@ dependencyResolutionManagement {
 }
 
 include(
-    "pubg-stats-bot",
     "pubg-stats-bot-discord",
 )
