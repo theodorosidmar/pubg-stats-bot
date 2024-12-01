@@ -14,6 +14,6 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 
 kord = { module = "dev.kord:kord-core", version.ref = "kord" }
 
-pubgkt = { module = "pubgkt:pubgkt-jvm", version.ref = "pubgkt" }
+pubgkt = { module = "pubgkt:pubgkt", version.ref = "pubgkt" }
 
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
