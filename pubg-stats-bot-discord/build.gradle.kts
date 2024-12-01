@@ -12,7 +12,7 @@ dependencies {
 tasks {
     withType<Jar> {
         manifest {
-            attributes["Main-Class"] = "dev.pubgstats.bot.discord"
+            attributes["Main-Class"] = "dev.pubgstats.bot.discord.MainKt"
         }
         val dependencies = configurations
             .runtimeClasspath
