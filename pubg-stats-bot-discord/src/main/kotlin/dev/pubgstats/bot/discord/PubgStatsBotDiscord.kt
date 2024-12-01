@@ -1,62 +1,62 @@
 package dev.pubgstats.bot.discord
 
+import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
-import dev.kord.core.event.message.MessageCreateEvent
+import dev.kord.core.behavior.interaction.response.respond
+import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
+import dev.kord.rest.builder.interaction.string
+import dev.kord.rest.request.KtorRequestHandler
+import dev.kord.rest.service.RestClient
 import org.slf4j.LoggerFactory
 import pubgkt.GameMode
 import pubgkt.PubgSteamApi
-import pubgkt.Stats
 
-class PubgStatsBotDiscord(private val token: String) {
+class PubgStatsBotDiscord(
+    private val token: String,
+    applicationId: String,
+) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val interaction = RestClient(KtorRequestHandler(token)).interaction
     private val pubgApi = PubgSteamApi(System.getenv("PUBG_API_KEY") ?: error("PUBG API Key required"))
+    private val snowflake = Snowflake(applicationId)
 
-    @OptIn(PrivilegedIntent::class)
     suspend fun init() {
-        Kord(token).apply {
-            on<MessageCreateEvent> {
-                if (message.isNotValid()) return@on
-                val player = message.content.split(' ').last()
-                val gameMode = GameMode.SquadFpp
-                val stats = pubgApi.getLifetimeStats(player, gameMode)
-                message.channel.createMessage(output(player, gameMode.name, stats.getOrThrow()))
+        registerCommands()
+        login()
+    }
+
+    private suspend fun registerCommands() {
+        interaction.createGlobalChatInputApplicationCommand(
+            applicationId = snowflake,
+            name = "kills",
+            description = "See your amount of kills",
+        ) {
+            string("player", "The nickname of the player") {
+                required = true
             }
-        }.login {
-            intents += Intent.MessageContent
-            logger.info("Logged in successfully")
         }
     }
-}
 
-private fun output(player: String, gameMode: String, stats: Stats): String = with(stats) {
-    """
-    Estatísticas de $player desde sempre no modo $gameMode-fpp:
-    Armas looteadas: $weaponsAcquired
-    Assistências: $assists
-    Boosts: $boosts
-    Dano causado: $damageDealt
-    Distância dirigida: $rideDistance
-    Distância nadada: $swimDistance
-    Distância percorrida: $walkDistance
-    Fogo amigo: $teamKills
-    Headshot kills: $headshotKills
-    Heals: $heals
-    Kills: $kills
-    Kills em uma única partida: $roundMostKills
-    Kill mais longe: $longestKill
-    Kills por atropelamento: $roadKills
-    Kill streak: $maxKillStreaks
-    Knocks: $dBNOs
-    Loses: $losses
-    Partidas jogadas: $roundsPlayed
-    Revives: $revives
-    Suicídios: $suicides
-    Tempo sobrevivido: $timeSurvived
-    Tempo sobrevivido (recorde): $longestTimeSurvived
-    Top 10: $top10s
-    Veículos destruídos: $vehicleDestroys
-    """.trimIndent()
+    @OptIn(PrivilegedIntent::class)
+    private suspend fun login() {
+        Kord(token)
+            .apply {
+                on<GuildChatInputCommandInteractionCreateEvent> {
+                    logger.info("Received command user=${interaction.user.globalName} command=${interaction.command.rootName}")
+                    val response = interaction.deferPublicResponse()
+                    val player = interaction.command.strings["player"]!!
+                    val stats = pubgApi.getLifetimeStats(player, GameMode.SquadFpp).getOrThrow()
+                    response.respond {
+                        content = "`$player` killed **${stats.kills}** playing **${GameMode.SquadFpp.id}**"
+                    }
+                }
+            }
+            .login {
+                intents += Intent.MessageContent
+                logger.info("Logged in successfully")
+            }
+    }
 }

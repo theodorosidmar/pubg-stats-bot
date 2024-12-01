@@ -6,7 +6,7 @@ dependencies {
     implementation(libs.kord)
 
     // Logging
-    runtimeOnly(libs.logback.classic)
+    runtimeOnly(libs.slf4j.simple)
 }
 
 tasks {

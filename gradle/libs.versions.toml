@@ -3,7 +3,7 @@ kotlin = "2.1.0"
 kotlin-dsl = "5.1.1"
 kord = "0.15.0"
 pubgkt = "0.0.1"
-logback = "1.5.12"
+slf4j = "2.0.16"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -16,4 +16,4 @@ kord = { module = "dev.kord:kord-core", version.ref = "kord" }
 
 pubgkt = { module = "pubgkt:pubgkt-jvm", version.ref = "pubgkt" }
 
-logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
