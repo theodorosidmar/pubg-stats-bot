@@ -1,11 +1,9 @@
 [versions]
-kotlin = "2.0.20"
-kotlin-dsl = "4.4.0"
-kord = "0.14.0"
+kotlin = "2.1.0"
+kotlin-dsl = "5.1.1"
+kord = "0.15.0"
 pubgkt = "0.0.1"
-slf4j = "2.0.9"
-logback = "1.4.14"
-coroutines = "1.9.0"
+logback = "1.5.12"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -18,8 +16,4 @@ kord = { module = "dev.kord:kord-core", version.ref = "kord" }
 
 pubgkt = { module = "pubgkt:pubgkt-jvm", version.ref = "pubgkt" }
 
-slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-
-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }

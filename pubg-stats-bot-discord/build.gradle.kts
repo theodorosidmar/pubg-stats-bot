@@ -1,5 +1,3 @@
-group = "dev.pubgstats.bot.discord"
-
 dependencies {
     // Stats bot
     implementation(libs.pubgkt)

@@ -1,9 +1,10 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     alias(libs.plugins.kotlin.dsl) apply true
     alias(libs.plugins.kotlin.jvm) apply false
+}
+
+kotlin {
+    jvmToolchain(23)
 }
 
 subprojects {
@@ -16,12 +17,6 @@ subprojects {
     }
 
     tasks {
-        withType<KotlinCompile> {
-            compilerOptions {
-                jvmTarget.set(JVM_21)
-            }
-        }
-
         withType<Test> {
             useJUnitPlatform()
         }
