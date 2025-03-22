@@ -1,9 +1,9 @@
 [versions]
-kotlin = "2.1.0"
-kotlin-dsl = "5.1.1"
+kotlin = "2.1.20"
+kotlin-dsl = "5.2.0"
 kord = "0.15.0"
 pubgkt = "0.0.1"
-slf4j = "2.0.16"
+slf4j = "2.0.17"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
