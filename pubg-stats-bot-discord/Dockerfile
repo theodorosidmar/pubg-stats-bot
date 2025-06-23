@@ -1,4 +1,4 @@
-FROM eclipse-temurin:23-jre
+FROM eclipse-temurin:24-jre
 WORKDIR /app
 COPY build/libs/pubg-stats-bot-discord.jar ./pubg-stats-bot-discord.jar
 CMD ["java", "-jar", "/app/pubg-stats-bot-discord.jar"]
