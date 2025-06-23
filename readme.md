@@ -5,4 +5,3 @@ See your PUBG statistics at your favorite Discord channel.
 
 ## Creators
 - [@theodorosidmar](https://github.com/theodorosidmar)
-- [@rafaelsachetto](https://github.com/rafaelsachetto)
