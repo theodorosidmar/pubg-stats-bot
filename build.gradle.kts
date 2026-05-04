@@ -4,7 +4,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(24)
+    jvmToolchain(25)
 }
 
 subprojects {
