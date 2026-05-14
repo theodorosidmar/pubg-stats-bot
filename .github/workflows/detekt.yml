@@ -23,9 +23,10 @@ jobs:
           distribution: temurin
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-encryption-key: ${{ secrets.GRADLE_CACHE_ENCRYPTION_KEY }}
+          dependency-graph: generate-and-submit
 
       - name: Run detekt
         run: ./gradlew detektMain detektTest --info
