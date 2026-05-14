@@ -8,8 +8,6 @@ slf4j = "2.0.17"
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [libraries]
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-
 kord = { module = "dev.kord:kord-core", version.ref = "kord" }
 
 pubgkt-bom = { module = "dev.pubgkt:bom", version.ref = "pubgkt" }

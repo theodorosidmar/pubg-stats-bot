@@ -11,7 +11,7 @@ dependencies {
     implementation(libs.pubgkt.core)
 
     // Tests
-    testImplementation(libs.kotlin.test)
+    testImplementation(kotlin("test"))
 }
 
 kotlin {
