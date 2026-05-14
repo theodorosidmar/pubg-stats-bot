@@ -1,13 +1,11 @@
 [versions]
 kotlin = "2.4.0-RC"
-kotlin-dsl = "6.6.4"
 kord = "0.18.1"
 pubgkt = "0.0.1"
 slf4j = "2.0.17"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-dsl = { id = "org.gradle.kotlin.kotlin-dsl", version.ref = "kotlin-dsl" }
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
