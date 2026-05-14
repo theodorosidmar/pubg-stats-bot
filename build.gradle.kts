@@ -67,8 +67,8 @@ tasks {
         reports {
             html.required.set(true)
             markdown.required.set(true)
+            sarif.required.set(true)
             checkstyle.required.set(false)
-            sarif.required.set(false)
         }
     }
 }
