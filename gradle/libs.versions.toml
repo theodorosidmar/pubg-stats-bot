@@ -1,7 +1,7 @@
 [versions]
 kotlin = "2.4.0-RC"
 kord = "0.18.1"
-pubgkt = "0.0.1"
+pubgkt = "1.0.1"
 slf4j = "2.0.17"
 
 [plugins]
@@ -12,6 +12,7 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 
 kord = { module = "dev.kord:kord-core", version.ref = "kord" }
 
-pubgkt = { module = "pubgkt:pubgkt", version.ref = "pubgkt" }
+pubgkt-bom = { module = "dev.pubgkt:bom", version.ref = "pubgkt" }
+pubgkt-core = { module = "dev.pubgkt:core" }
 
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }

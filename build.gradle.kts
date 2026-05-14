@@ -6,6 +6,10 @@ dependencies {
     // Kord
     implementation(libs.kord)
 
+    // pubgkt
+    implementation(platform(libs.pubgkt.bom))
+    implementation(libs.pubgkt.core)
+
     // Tests
     testImplementation(libs.kotlin.test)
 }
