@@ -1,13 +1,22 @@
 [versions]
+# Plugins
 kotlin = "2.4.0-RC"
+detekt = "2.0.0-alpha.3"
+
+# Dependencies
 kord = "0.18.1"
 pubgkt = "1.0.1"
 slf4j = "2.0.17"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+detekt = { id = "dev.detekt", version.ref = "detekt" }
 
 [libraries]
+# Plugins
+detekt-ktlint = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt" }
+
+# Dependencies
 kord = { module = "dev.kord:kord-core", version.ref = "kord" }
 
 pubgkt-bom = { module = "dev.pubgkt:bom", version.ref = "pubgkt" }

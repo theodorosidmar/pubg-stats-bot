@@ -1,8 +1,14 @@
+import dev.detekt.gradle.Detekt
+import dev.detekt.gradle.extensions.FailOnSeverity.Warning
+
 plugins {
     alias(libs.plugins.kotlin.jvm) apply true
+    alias(libs.plugins.detekt) apply true
 }
 
 dependencies {
+    detektPlugins(libs.detekt.ktlint)
+
     // Kord
     implementation(libs.kord)
 
@@ -18,7 +24,21 @@ kotlin {
     jvmToolchain(26)
 }
 
+detekt {
+    config.setFrom(rootProject.file("detekt/detekt.yml"))
+    buildUponDefaultConfig = false
+    autoCorrect = true
+    parallel = true
+    debug = false
+    ignoreFailures = false
+    failOnSeverity = Warning
+}
+
 tasks {
+    check {
+        dependsOn(detektMain, detektTest)
+    }
+
     withType<Jar> {
         manifest {
             attributes["Main-Class"] = "dev.pubgstats.bot.discord.MainKt"
@@ -40,5 +60,15 @@ tasks {
 
     withType<Test> {
         useJUnitPlatform()
+    }
+
+    withType<Detekt>().configureEach {
+        jvmTarget = "25"
+        reports {
+            html.required.set(true)
+            markdown.required.set(true)
+            checkstyle.required.set(false)
+            sarif.required.set(false)
+        }
     }
 }
