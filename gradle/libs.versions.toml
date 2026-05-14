@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.3.21"
+kotlin = "2.4.0-RC"
 kotlin-dsl = "6.6.4"
 kord = "0.18.1"
 pubgkt = "0.0.1"
