@@ -26,11 +26,11 @@ data object DiscordTokenProperty : UserInputProperty<String> {
     override fun parse(value: String): String = value
 }
 
-data object WorkerProperty : DefaultedProperty<Int> {
-    override val argKey = "workers"
-    override val systemPropertyKey = "workers"
-    override val envVarKey = "WORKERS"
-    override val default: Int = Runtime.getRuntime().availableProcessors()
+data object GatewayWorkersProperty : DefaultedProperty<Int> {
+    override val argKey = "gateway-workers"
+    override val systemPropertyKey = "gateway.workers"
+    override val envVarKey = "GATEWAY_WORKERS"
+    override val default: Int = 2
 
     override fun parse(value: String): Int = value.toInt()
 }

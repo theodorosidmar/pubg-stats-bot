@@ -85,16 +85,16 @@ class PropertiesTest {
     fun `defaulted property - default is used when all sources absent`() {
         val result = resolveProperty(
             args = emptyArray(),
-            property = WorkerProperty,
+            property = GatewayWorkersProperty,
         )
-        assertEquals(Runtime.getRuntime().availableProcessors(), result)
+        assertEquals(2, result)
     }
 
     @Test
     fun `defaulted property - parses value from args`() {
         val result = resolveProperty(
-            args = arrayOf("${WorkerProperty.argPrefix}8"),
-            property = WorkerProperty,
+            args = arrayOf("${GatewayWorkersProperty.argPrefix}8"),
+            property = GatewayWorkersProperty,
         )
         assertEquals(8, result)
     }
