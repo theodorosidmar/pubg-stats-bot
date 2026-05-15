@@ -7,6 +7,7 @@ detekt = "2.0.0-alpha.3"
 kord = "0.18.1"
 pubgkt = "1.0.1"
 slf4j = "2.0.18"
+kotlinx-coroutines = "1.11.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -17,9 +18,14 @@ detekt = { id = "dev.detekt", version.ref = "detekt" }
 detekt-ktlint = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt" }
 
 # Dependencies
+# Kord
 kord = { module = "dev.kord:kord-core", version.ref = "kord" }
 
+# pubgkt
 pubgkt-bom = { module = "dev.pubgkt:bom", version.ref = "pubgkt" }
 pubgkt-core = { module = "dev.pubgkt:core" }
 
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+
+# Tests
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }

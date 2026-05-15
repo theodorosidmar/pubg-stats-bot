@@ -18,6 +18,7 @@ dependencies {
 
     // Tests
     testImplementation(kotlin("test"))
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 kotlin {
