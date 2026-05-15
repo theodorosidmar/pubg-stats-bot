@@ -2,6 +2,7 @@
 # Plugins
 kotlin = "2.4.0-RC"
 detekt = "2.0.0-alpha.3"
+kotlinx-kover = "0.9.8"
 
 # Dependencies
 kord = "0.18.1"
@@ -12,6 +13,7 @@ kotlinx-coroutines = "1.11.0"
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
+kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinx-kover" }
 
 [libraries]
 # Plugins

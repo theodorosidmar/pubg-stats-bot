@@ -4,6 +4,7 @@ import dev.detekt.gradle.extensions.FailOnSeverity.Warning
 plugins {
     alias(libs.plugins.kotlin.jvm) apply true
     alias(libs.plugins.detekt) apply true
+    alias(libs.plugins.kotlinx.kover) apply true
 }
 
 dependencies {
