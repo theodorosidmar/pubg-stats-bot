@@ -17,6 +17,9 @@ dependencies {
     implementation(platform(libs.pubgkt.bom))
     implementation(libs.pubgkt.core)
 
+    // Logs
+    implementation(libs.slf4j.simple)
+
     // Tests
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.test)
