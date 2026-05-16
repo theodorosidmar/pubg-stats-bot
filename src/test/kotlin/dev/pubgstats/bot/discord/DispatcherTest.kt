@@ -10,7 +10,6 @@ import kotlinx.coroutines.test.runTest
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import kotlin.concurrent.atomics.AtomicInt
-import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.concurrent.atomics.decrementAndFetch
 import kotlin.concurrent.atomics.incrementAndFetch
 import kotlin.concurrent.atomics.updateAndFetch
@@ -18,10 +17,10 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@Suppress("SleepInsteadOfDelay")
 class DispatcherTest {
 
     @Test
-    @Suppress("SleepInsteadOfDelay")
     fun `gateway dispatcher - fixed thread pool bounds concurrency`() = runTest {
         val workers = 2
         val dispatcher = Executors.newFixedThreadPool(workers).asCoroutineDispatcher()
@@ -45,8 +44,6 @@ class DispatcherTest {
     }
 
     @Test
-    @OptIn(ExperimentalAtomicApi::class)
-    @Suppress("SleepInsteadOfDelay")
     fun `processing dispatcher - virtual threads run tasks concurrently`() = runTest {
         val dispatcher = Executors.newVirtualThreadPerTaskExecutor().asCoroutineDispatcher()
         val concurrentCount = AtomicInt(0)

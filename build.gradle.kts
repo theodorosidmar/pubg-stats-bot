@@ -27,6 +27,9 @@ dependencies {
 
 kotlin {
     jvmToolchain(26)
+    compilerOptions {
+        optIn.add("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+    }
 }
 
 detekt {
