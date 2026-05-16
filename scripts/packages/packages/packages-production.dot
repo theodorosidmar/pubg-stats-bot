@@ -1,0 +1,47 @@
+digraph PackageDependencies {
+  rankdir=TB;
+  layout=dot;
+  ranksep=1.0;
+  nodesep=0.6;
+  splines=true;
+  concentrate=true;
+  newrank=true;
+  label="PUBG Stats Bot — package dependencies (production)";
+  labelloc=t;
+  fontsize=16;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12];
+  edge [color="#555555", arrowsize=0.8];
+
+  subgraph "cluster_cache" {
+    label="Cache";
+    style="rounded,dashed";
+    color="#6C8EBF";
+    fontname="Helvetica";
+    fontsize=13;
+
+    "dev.pubgstats.bot.cache" [label="cache", fillcolor="#DAE8FC"];
+  }
+
+  subgraph "cluster_command" {
+    label="Command";
+    style="rounded,dashed";
+    color="#B85450";
+    fontname="Helvetica";
+    fontsize=13;
+
+    "dev.pubgstats.bot.discord.command" [label="discord.command", fillcolor="#F8CECC"];
+  }
+
+  subgraph "cluster_discord" {
+    label="Discord";
+    style="rounded,dashed";
+    color="#D4A843";
+    fontname="Helvetica";
+    fontsize=13;
+
+    "dev.pubgstats.bot.discord" [label="discord", fillcolor="#FFF2CC"];
+  }
+
+  "dev.pubgstats.bot.discord" -> "dev.pubgstats.bot.discord.command";
+}
