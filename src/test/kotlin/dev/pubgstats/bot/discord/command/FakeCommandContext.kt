@@ -1,6 +1,7 @@
 package dev.pubgstats.bot.discord.command
 
 class FakeCommandContext(
+    override val locale: BotLocale = BotLocale.EN_US,
     override val strings: Map<String, String> = emptyMap(),
     override val integers: Map<String, Long> = emptyMap(),
     override val booleans: Map<String, Boolean> = emptyMap(),

@@ -8,6 +8,7 @@ package dev.pubgstats.bot.discord.command
  * Handlers depend only on this contract, keeping them testable in isolation.
  */
 interface CommandContext {
+    val locale: BotLocale
     val strings: Map<String, String>
     val integers: Map<String, Long>
     val booleans: Map<String, Boolean>

@@ -8,12 +8,12 @@ package dev.pubgstats.bot.discord.command
  */
 sealed interface CommandOption {
     val name: String
-    val description: String
+    val description: Localized<String>
     val required: Boolean
 
     data class StringOption(
         override val name: String,
-        override val description: String,
+        override val description: Localized<String>,
         override val required: Boolean = false,
         val choices: List<Choice> = emptyList(),
     ) : CommandOption {
@@ -22,19 +22,19 @@ sealed interface CommandOption {
 
     data class IntegerOption(
         override val name: String,
-        override val description: String,
+        override val description: Localized<String>,
         override val required: Boolean = false,
     ) : CommandOption
 
     data class BooleanOption(
         override val name: String,
-        override val description: String,
+        override val description: Localized<String>,
         override val required: Boolean = false,
     ) : CommandOption
 
     data class UserOption(
         override val name: String,
-        override val description: String,
+        override val description: Localized<String>,
         override val required: Boolean = false,
     ) : CommandOption
 }

@@ -43,7 +43,7 @@ private class ParamsHandler : CommandHandler<ParamsHandler.Params>() {
     data class Params(val name: String, val tag: String?)
 
     override val name = "test"
-    override val description = "Test handler"
+    override val description = Localized(enUs = "Test handler", ptBr = "Handler de teste")
 
     var executeWasCalled = false
     var lastParams: Params? = null

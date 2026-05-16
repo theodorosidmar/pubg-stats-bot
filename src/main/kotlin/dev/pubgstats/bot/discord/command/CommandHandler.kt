@@ -11,7 +11,7 @@ package dev.pubgstats.bot.discord.command
  */
 abstract class CommandHandler<P> {
     abstract val name: String
-    abstract val description: String
+    abstract val description: Localized<String>
     open val options: List<CommandOption> = emptyList()
     open val visibility: Visibility = Visibility.PUBLIC
 
