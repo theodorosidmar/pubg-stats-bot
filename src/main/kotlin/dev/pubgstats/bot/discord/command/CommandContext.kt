@@ -21,5 +21,6 @@ interface CommandContext {
         checkNotNull(booleans[name]) { "Missing required boolean option: $name" }
 
     suspend fun respond(content: String)
+    suspend fun respond(content: Localized<String>) = respond(content.resolve(locale))
     suspend fun respond(embed: Embed)
 }

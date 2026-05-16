@@ -33,7 +33,7 @@ class CommandDispatcher(
                 handler.handle(ctx)
             } catch (e: RateLimitExceededException) {
                 logger.warn("Rate limit exceeded while handling /{}", commandName, e)
-                ctx.respond(RATE_LIMIT_MESSAGE.resolve(ctx.locale))
+                ctx.respond(RATE_LIMIT_MESSAGE)
             }
         }
     }
