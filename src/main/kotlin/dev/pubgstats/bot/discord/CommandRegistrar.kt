@@ -8,6 +8,7 @@ import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.interaction.user
 import dev.pubgstats.bot.discord.command.CommandHandler
 import dev.pubgstats.bot.discord.command.CommandOption
+import kotlinx.coroutines.flow.collect
 import org.slf4j.LoggerFactory
 import dev.kord.common.Locale as KordLocale
 
@@ -15,13 +16,15 @@ class CommandRegistrar(private val handlers: Map<String, CommandHandler<*>>) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     suspend fun register(kord: Kord) {
-        handlers.values.forEach { handler ->
-            logger.debug("Registering slash command: /{} ({})", handler.name, handler.description.enUs)
-            kord.createGlobalChatInputCommand(handler.name, handler.description.enUs) {
-                description(KordLocale.PORTUGUESE_BRAZIL, handler.description.ptBr)
-                buildOptions(handler.options)
+        kord.createGlobalApplicationCommands {
+            handlers.values.forEach { handler ->
+                logger.debug("Registering slash command: /{} ({})", handler.name, handler.description.enUs)
+                input(handler.name, handler.description.enUs) {
+                    description(KordLocale.PORTUGUESE_BRAZIL, handler.description.ptBr)
+                    buildOptions(handler.options)
+                }
             }
-        }
+        }.collect()
         logger.info("Registered {} slash command(s)", handlers.size)
     }
 }
