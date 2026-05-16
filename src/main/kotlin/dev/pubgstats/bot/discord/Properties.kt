@@ -26,6 +26,14 @@ data object DiscordTokenProperty : UserInputProperty<String> {
     override fun parse(value: String): String = value
 }
 
+data object PubgApiKeyProperty : UserInputProperty<String> {
+    override val argKey: String = "pubg-api-key"
+    override val systemPropertyKey: String = "pubg.api.key"
+    override val envVarKey: String = "PUBG_API_KEY"
+
+    override fun parse(value: String): String = value
+}
+
 data object GatewayWorkersProperty : DefaultedProperty<Int> {
     override val argKey = "gateway-workers"
     override val systemPropertyKey = "gateway.workers"
