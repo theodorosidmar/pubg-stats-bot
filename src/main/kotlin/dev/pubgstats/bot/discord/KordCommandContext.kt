@@ -9,6 +9,7 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import dev.pubgstats.bot.discord.command.BotLocale
 import dev.pubgstats.bot.discord.command.CommandContext
 import dev.pubgstats.bot.discord.command.Embed
+import dev.pubgstats.bot.discord.command.Localized
 import dev.kord.common.Locale as KordLocale
 
 class KordCommandContext(
@@ -24,8 +25,8 @@ class KordCommandContext(
         deferred.respond { this.content = content }
     }
 
-    override suspend fun respond(embed: Embed) {
-        deferred.respond { embeds = mutableListOf(embed.toKord()) }
+    override suspend fun respondEmbed(embed: Localized<Embed>) {
+        deferred.respond { embeds = mutableListOf(embed.resolve(locale).toKord()) }
     }
 }
 

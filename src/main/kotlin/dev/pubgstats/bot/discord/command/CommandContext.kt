@@ -22,5 +22,5 @@ interface CommandContext {
 
     suspend fun respond(content: String)
     suspend fun respond(content: Localized<String>) = respond(content.resolve(locale))
-    suspend fun respond(embed: Embed)
+    suspend fun respondEmbed(embed: Localized<Embed>)
 }

@@ -16,7 +16,7 @@ import java.io.IOException
 import java.util.concurrent.Executors
 
 class Application(private val config: Config) {
-    private val logger = LoggerFactory.getLogger(Application::class.java)
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     private val gatewayDispatcher = Executors.newFixedThreadPool(config.gatewayWorkers).asCoroutineDispatcher()
     private val commandsDispatcher = Executors.newVirtualThreadPerTaskExecutor().asCoroutineDispatcher()
