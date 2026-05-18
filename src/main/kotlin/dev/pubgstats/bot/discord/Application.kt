@@ -6,6 +6,7 @@ import dev.pubgkt.PubgApi
 import dev.pubgkt.Retry
 import dev.pubgkt.ratelimit.ConcurrentDelayRateLimiter
 import dev.pubgstats.bot.discord.command.CommandHandler
+import dev.pubgstats.bot.discord.command.DuelCommandHandler
 import dev.pubgstats.bot.discord.command.PingHandler
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -37,6 +38,7 @@ class Application(private val config: Config) {
 
     private val handlers: Map<String, CommandHandler> = listOf(
         PingHandler(),
+        DuelCommandHandler(),
     ).associateBy { it.name }
 
     private val registrar = CommandRegistrar(handlers)
