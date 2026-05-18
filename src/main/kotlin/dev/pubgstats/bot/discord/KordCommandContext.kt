@@ -5,6 +5,7 @@ import dev.kord.common.Locale.Companion.PORTUGUESE_BRAZIL
 import dev.kord.core.behavior.interaction.response.DeferredMessageInteractionResponseBehavior
 import dev.kord.core.behavior.interaction.response.respond
 import dev.kord.core.entity.interaction.ChatInputCommandInteraction
+import dev.kord.core.entity.interaction.SubCommand
 import dev.kord.rest.builder.message.EmbedBuilder
 import dev.pubgstats.bot.discord.command.BotLocale
 import dev.pubgstats.bot.discord.command.CommandContext
@@ -20,6 +21,7 @@ class KordCommandContext(
     override val strings: Map<String, String> = interaction.command.strings
     override val integers: Map<String, Long> = interaction.command.integers
     override val booleans: Map<String, Boolean> = interaction.command.booleans
+    override val subCommandName: String? = (interaction.command as? SubCommand)?.name
 
     override suspend fun respond(content: String) {
         deferred.respond { this.content = content }

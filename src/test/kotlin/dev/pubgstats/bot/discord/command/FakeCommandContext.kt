@@ -5,6 +5,7 @@ data class FakeCommandContext(
     override val strings: Map<String, String> = emptyMap(),
     override val integers: Map<String, Long> = emptyMap(),
     override val booleans: Map<String, Boolean> = emptyMap(),
+    override val subCommandName: String? = null,
 ) : CommandContext {
     val responses = mutableListOf<String>()
     val embeds = mutableListOf<Localized<Embed>>()

@@ -8,7 +8,7 @@ class PingHandlerTest {
 
     @Test
     fun `responds with pong in English`() = runTest {
-        val ctx = FakeCommandContext(locale = BotLocale.EN_US)
+        val ctx = FakeCommandContext()
         PingHandler().handle(ctx)
         assertEquals("pong", ctx.responses.single())
     }

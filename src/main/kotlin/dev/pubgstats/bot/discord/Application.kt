@@ -35,7 +35,7 @@ class Application(private val config: Config) {
         ),
     )
 
-    private val handlers: Map<String, CommandHandler<*>> = listOf(
+    private val handlers: Map<String, CommandHandler> = listOf(
         PingHandler(),
     ).associateBy { it.name }
 

@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 
-class CommandHandlerTest {
+class RegularCommandHandlerTest {
 
     @Test
     fun `parseParams runs before execute`() = runTest {
@@ -39,7 +39,7 @@ class CommandHandlerTest {
     }
 }
 
-private class ParamsHandler : CommandHandler<ParamsHandler.Params>() {
+private class ParamsHandler : RegularCommandHandler<ParamsHandler.Params>() {
     data class Params(val name: String, val tag: String?)
 
     override val name = "test"

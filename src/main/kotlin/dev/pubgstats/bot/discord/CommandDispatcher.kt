@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import org.slf4j.LoggerFactory
 
 class CommandDispatcher(
-    private val handlers: Map<String, CommandHandler<*>>,
+    private val handlers: Map<String, CommandHandler>,
     private val scope: CoroutineScope,
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)

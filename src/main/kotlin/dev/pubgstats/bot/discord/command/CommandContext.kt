@@ -12,6 +12,7 @@ interface CommandContext {
     val strings: Map<String, String>
     val integers: Map<String, Long>
     val booleans: Map<String, Boolean>
+    val subCommandName: String?
 
     fun requireString(name: String): String = checkNotNull(strings[name]) { "Missing required string option: $name" }
 

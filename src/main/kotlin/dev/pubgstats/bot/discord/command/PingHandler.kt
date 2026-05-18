@@ -1,6 +1,6 @@
 package dev.pubgstats.bot.discord.command
 
-class PingHandler : CommandHandler<Unit>() {
+class PingHandler : RegularCommandHandler<Unit>() {
     override val name = "ping"
     override val description = Localized(enUs = "Replies with pong", ptBr = "Responde com pong")
 
