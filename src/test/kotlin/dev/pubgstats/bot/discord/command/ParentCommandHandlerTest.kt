@@ -32,7 +32,7 @@ class ParentCommandHandlerTest {
         val parent = DuelHandler()
         val ctx = FakeCommandContext(subCommandName = "unknown")
 
-        assertFailsWith<NoSuchElementException> { parent.handle(ctx) }
+        assertFailsWith<IllegalStateException> { parent.handle(ctx) }
     }
 
     @Test
@@ -53,7 +53,10 @@ class ParentCommandHandlerTest {
 private class DuelHandler : ParentCommandHandler() {
     override val name = "duel"
     override val description = Localized(enUs = "Duel commands", ptBr = "Comandos de duelo")
-    override val childHandlers = listOf(KillsSubCommand(), WinsSubCommand())
+    override val childHandlers: Map<String, RegularCommandHandler<*>> = buildMap {
+        KillsSubCommand().let { put(it.name, it) }
+        WinsSubCommand().let { put(it.name, it) }
+    }
 }
 
 private class KillsSubCommand : RegularCommandHandler<Unit>() {

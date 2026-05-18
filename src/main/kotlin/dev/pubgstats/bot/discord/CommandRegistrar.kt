@@ -27,7 +27,7 @@ class CommandRegistrar(private val handlers: Map<String, CommandHandler>) {
                     description(KordLocale.PORTUGUESE_BRAZIL, handler.description.ptBr)
                     when (handler) {
                         is RegularCommandHandler<*> -> buildOptions(handler.options)
-                        is ParentCommandHandler -> buildSubCommands(handler.childHandlers)
+                        is ParentCommandHandler -> buildSubCommands(handler.childHandlers.values)
                     }
                 }
             }
@@ -36,7 +36,7 @@ class CommandRegistrar(private val handlers: Map<String, CommandHandler>) {
     }
 }
 
-private fun RootInputChatBuilder.buildSubCommands(subCommands: List<RegularCommandHandler<*>>) {
+private fun RootInputChatBuilder.buildSubCommands(subCommands: Collection<RegularCommandHandler<*>>) {
     subCommands.forEach { sub ->
         subCommand(sub.name, sub.description.enUs) {
             description(KordLocale.PORTUGUESE_BRAZIL, sub.description.ptBr)
