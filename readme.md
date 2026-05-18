@@ -58,4 +58,4 @@ Use `--debug` to enable debug logging for all libraries, or `-Dorg.slf4j.simpleL
 
 ## License
 
-This project is for educational purposes.
+This project is licensed under the [GNU Affero General Public License v3.0](license).
