@@ -41,11 +41,17 @@ private fun Embed.toKord(): EmbedBuilder = EmbedBuilder().apply {
     this@toKord.title?.let { title = it }
     this@toKord.description?.let { description = it }
     this@toKord.color?.let { color = Color(it) }
-    this@toKord.fields.forEach { field ->
+    this@toKord.author?.let {
+        author {
+            name = it.name
+            it.iconUrl?.let { icon = it }
+        }
+    }
+    this@toKord.fields.forEach {
         field {
-            name = field.name
-            value = field.value
-            inline = field.inline
+            name = it.name
+            value = it.value
+            inline = it.inline
         }
     }
 }

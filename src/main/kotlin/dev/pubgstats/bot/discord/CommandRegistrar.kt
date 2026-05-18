@@ -27,7 +27,7 @@ class CommandRegistrar(private val handlers: Map<String, CommandHandler>) {
                     description(KordLocale.PORTUGUESE_BRAZIL, handler.description.ptBr)
                     when (handler) {
                         is RegularCommandHandler<*> -> buildOptions(handler.options)
-                        is ParentCommandHandler -> buildSubCommands(handler.childHandlers.values)
+                        is ParentCommandHandler -> buildSubCommands(handler.childHandlers)
                     }
                 }
             }

@@ -30,6 +30,7 @@ class CommandDispatcher(
             val deferred = deferResponse(interaction, handler.visibility)
             val ctx = KordCommandContext(interaction, deferred)
             try {
+                logger.debug("Received command: {}", commandName)
                 handler.handle(ctx)
             } catch (e: RateLimitExceededException) {
                 logger.warn("Rate limit exceeded while handling /{}", commandName, e)

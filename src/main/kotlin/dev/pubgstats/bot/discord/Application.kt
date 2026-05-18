@@ -6,7 +6,7 @@ import dev.pubgkt.PubgApi
 import dev.pubgkt.Retry
 import dev.pubgkt.ratelimit.ConcurrentDelayRateLimiter
 import dev.pubgstats.bot.discord.command.CommandHandler
-import dev.pubgstats.bot.discord.command.PingHandler
+import dev.pubgstats.bot.discord.command.duel.DuelCommandHandler
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -24,7 +24,6 @@ class Application(private val config: Config) {
         SupervisorJob() + commandsDispatcher + CoroutineName("CommandProcessor"),
     )
 
-    @Suppress("unused")
     private val pubgApi = PubgApi(
         apiKey = config.pubgApiKey,
         rateLimiter = ConcurrentDelayRateLimiter(),
@@ -36,7 +35,7 @@ class Application(private val config: Config) {
     )
 
     private val handlers: Map<String, CommandHandler> = listOf(
-        PingHandler(),
+        DuelCommandHandler(pubgApi),
     ).associateBy { it.name }
 
     private val registrar = CommandRegistrar(handlers)

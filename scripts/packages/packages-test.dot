@@ -31,6 +31,7 @@ digraph PackageDependencies {
     fontsize=13;
 
     "dev.pubgstats.bot.discord.command" [label="discord.command", fillcolor="#F8CECC"];
+    "dev.pubgstats.bot.discord.command.duel.weapon" [label="discord.command.duel.weapon", fillcolor="#F8CECC"];
   }
 
   subgraph "cluster_discord" {
@@ -43,4 +44,7 @@ digraph PackageDependencies {
     "dev.pubgstats.bot.discord" [label="discord", fillcolor="#FFF2CC"];
   }
 
+  "dev.pubgstats.bot.discord.command" -> "dev.pubgstats.bot.cache";
+  "dev.pubgstats.bot.discord.command.duel.weapon" -> "dev.pubgstats.bot.discord.command";
+  "dev.pubgstats.bot.discord.command.duel.weapon" -> "dev.pubgstats.bot.cache";
 }

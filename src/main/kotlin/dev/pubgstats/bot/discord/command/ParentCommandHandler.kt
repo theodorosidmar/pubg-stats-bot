@@ -10,10 +10,14 @@ abstract class ParentCommandHandler : CommandHandler {
     abstract override val name: String
     abstract override val description: Localized<String>
     override val visibility: Visibility = Visibility.PUBLIC
-    abstract val childHandlers: Map<String, RegularCommandHandler<*>>
+    abstract val childHandlers: List<RegularCommandHandler<*>>
+
+    private val childHandlersMap: Map<String, RegularCommandHandler<*>> by lazy {
+        childHandlers.associateBy { it.name }
+    }
 
     override suspend fun handle(ctx: CommandContext) {
-        val childHandler = childHandlers[ctx.subCommandName]
+        val childHandler = childHandlersMap[ctx.subCommandName]
         checkNotNull(childHandler)
         childHandler.handle(ctx)
     }

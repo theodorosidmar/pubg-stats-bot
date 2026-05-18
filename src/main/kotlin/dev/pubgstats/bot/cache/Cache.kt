@@ -10,7 +10,7 @@ import kotlin.time.Duration
  */
 interface Cache<K : Any, V : Any> {
     /** Returns the value for [key], or `null` if absent or expired. */
-    suspend fun get(key: K): V?
+    suspend operator fun get(key: K): V?
 
     /**
      * Returns the value for [key] if cached, otherwise invokes [loader] and caches the result.
@@ -35,4 +35,13 @@ interface Cache<K : Any, V : Any> {
 
     /** Snapshot of the cache's hit/miss/eviction statistics. Recomputed on each access. */
     val stats: CacheStats
+}
+
+/**
+ * Shorthand for cache-through loading with a composite key.
+ * Joins [keyParts] with `:` and delegates to [Cache.get] with the [loader].
+ */
+suspend operator fun <V : Any> Cache<String, V>.invoke(vararg keyParts: String, loader: suspend (String) -> V): V {
+    val key = keyParts.joinToString(separator = ":")
+    return get(key) { loader(it) }
 }

@@ -135,10 +135,17 @@ fun File.extractPackageAndImports(): Pair<String, Set<String>> {
                 if (!m.find()) return@mapNotNull null
                 val fqName = m.group(1)
                 if (!fqName.startsWith("$basePackage.")) return@mapNotNull null
-                fqName.substringBeforeLast('.', missingDelimiterValue = fqName)
+                extractPackage(fqName)
             }.toSet()
 
     return packageName to importedPackages
+}
+
+fun extractPackage(fqName: String): String {
+    val withoutSymbol = fqName.substringBeforeLast('.')
+    val segments = withoutSymbol.split('.')
+    val packageSegments = segments.takeWhile { it.first().isLowerCase() }
+    return packageSegments.joinToString(".")
 }
 
 fun generateDotFile(

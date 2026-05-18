@@ -53,10 +53,10 @@ class ParentCommandHandlerTest {
 private class DuelHandler : ParentCommandHandler() {
     override val name = "duel"
     override val description = Localized(enUs = "Duel commands", ptBr = "Comandos de duelo")
-    override val childHandlers: Map<String, RegularCommandHandler<*>> = buildMap {
-        KillsSubCommand().let { put(it.name, it) }
-        WinsSubCommand().let { put(it.name, it) }
-    }
+    override val childHandlers: List<RegularCommandHandler<*>> = listOf(
+        KillsSubCommand(),
+        WinsSubCommand(),
+    )
 }
 
 private class KillsSubCommand : RegularCommandHandler<Unit>() {
