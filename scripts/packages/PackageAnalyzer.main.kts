@@ -21,18 +21,17 @@ val basePackage = "dev.pubgstats.bot"
 
 val workingDirectory: File = File(System.getProperty("user.dir")).canonicalFile
 val projectRoot = findProjectRoot(workingDirectory)
-val scriptFile = resolvePath(__FILE__.path, projectRoot)
-val scriptDir: File? = scriptFile.parentFile
+val scriptDir: File = projectRoot.resolve("scripts/packages")
 val sourceRoot =
     args
         .getOrNull(0)
         ?.let { path -> resolvePath(path, workingDirectory) }
         ?: projectRoot.resolve("src")
-val outputBasePath =
+val outputBasePath: File =
     args
         .getOrNull(1)
         ?.let { path -> resolvePath(path, workingDirectory) }
-        ?: scriptDir?.resolve("packages")
+        ?: scriptDir.resolve("packages")
 
 require(sourceRoot.exists() && sourceRoot.isDirectory) {
     "Source directory does not exist or is not a directory: ${sourceRoot.absolutePath}"
@@ -44,14 +43,14 @@ val targets =
         GraphTarget(
             scope = SourceScope.PRODUCTION,
             label = "production",
-            dotFile = File("${outputBasePath?.absolutePath}-production.dot"),
-            pngFile = File("${outputBasePath?.absolutePath}-production.png"),
+            dotFile = File("${outputBasePath.absolutePath}-production.dot"),
+            pngFile = File("${outputBasePath.absolutePath}-production.png"),
         ),
         GraphTarget(
             scope = SourceScope.TEST,
             label = "tests",
-            dotFile = File("${outputBasePath?.absolutePath}-test.dot"),
-            pngFile = File("${outputBasePath?.absolutePath}-test.png"),
+            dotFile = File("${outputBasePath.absolutePath}-test.dot"),
+            pngFile = File("${outputBasePath.absolutePath}-test.png"),
         ),
     )
 
