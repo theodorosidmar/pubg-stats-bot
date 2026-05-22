@@ -5,6 +5,7 @@ import dev.pubgstats.bot.discord.command.Caches
 import dev.pubgstats.bot.discord.command.Localized
 import dev.pubgstats.bot.discord.command.ParentCommandHandler
 import dev.pubgstats.bot.discord.command.RegularCommandHandler
+import dev.pubgstats.bot.discord.command.duel.kills.DuelKillsCommandHandler
 import dev.pubgstats.bot.discord.command.duel.weapon.DuelWeaponCommandHandler
 
 class DuelCommandHandler(pubgApi: PubgApi) : ParentCommandHandler() {
@@ -19,6 +20,9 @@ class DuelCommandHandler(pubgApi: PubgApi) : ParentCommandHandler() {
         DuelWeaponCommandHandler(
             pubgApi = pubgApi,
             weaponMasteryCache = Caches.weaponMastery,
+        ),
+        DuelKillsCommandHandler(
+            pubgApi = pubgApi,
         ),
     )
 }
