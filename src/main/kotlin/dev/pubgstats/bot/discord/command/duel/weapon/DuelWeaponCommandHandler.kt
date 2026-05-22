@@ -10,15 +10,15 @@ import dev.pubgstats.bot.discord.command.CommandOption
 import dev.pubgstats.bot.discord.command.Localized
 import dev.pubgstats.bot.discord.command.PLAYER_ONE_OPTION
 import dev.pubgstats.bot.discord.command.PLAYER_TWO_OPTION
-import dev.pubgstats.bot.discord.command.RegularCommandHandler
-import dev.pubgstats.bot.discord.command.resolvePlayers
+import dev.pubgstats.bot.discord.command.duel.DuelParams
+import dev.pubgstats.bot.discord.command.duel.DuelSubCommandHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
 class DuelWeaponCommandHandler(
-    private val pubgApi: PubgApi,
+    pubgApi: PubgApi,
     private val weaponMasteryCache: Cache<String, WeaponMastery>,
-) : RegularCommandHandler<DuelWeaponCommandHandler.Params>() {
+) : DuelSubCommandHandler<DuelWeaponCommandHandler.Params>(pubgApi) {
     override val name: String = "gun"
     override val description: Localized<String> = Localized(
         enUs = "Compare weapon stats between two players",
@@ -26,10 +26,10 @@ class DuelWeaponCommandHandler(
     )
 
     data class Params(
-        val playerOne: String,
-        val playerTwo: String,
+        override val playerOne: String,
+        override val playerTwo: String,
         val weapon: Weapon,
-    )
+    ) : DuelParams
 
     override val options: List<CommandOption> = listOf(
         PLAYER_ONE_OPTION,
@@ -52,7 +52,7 @@ class DuelWeaponCommandHandler(
     )
 
     override suspend fun execute(ctx: CommandContext, params: Params): Unit = coroutineScope {
-        val (playerOne, playerTwo) = pubgApi.resolvePlayers(params.playerOne, params.playerTwo)
+        val (playerOne, playerTwo) = resolveDuelPlayers(params)
 
         val p1MasteryDeferred = async {
             weaponMasteryCache(playerOne.id) { pubgApi.getWeaponMasteryByAccountId(playerOne.id) }
@@ -68,15 +68,30 @@ class DuelWeaponCommandHandler(
         val p2WeaponStats = params.weapon.lookup(p2Mastery)
 
         if (p1WeaponStats == null && p2WeaponStats == null) {
-            ctx.respond(DuelWeaponMessages.weaponNotFound(params.weapon))
+            ctx.respond(
+                Localized(
+                    enUs = "Weapon \"${params.weapon.label}\" not found.",
+                    ptBr = "Arma \"${params.weapon.label}\" não encontrada.",
+                ),
+            )
             return@coroutineScope
         }
         if (p1WeaponStats == null) {
-            ctx.respond(DuelWeaponMessages.noStats(playerOne.name, params.weapon))
+            ctx.respond(
+                Localized(
+                    enUs = "**${playerOne.name}** has no stats for \"${params.weapon.label}\".",
+                    ptBr = "**${playerOne.name}** não possui estatísticas para \"${params.weapon.label}\".",
+                ),
+            )
             return@coroutineScope
         }
         if (p2WeaponStats == null) {
-            ctx.respond(DuelWeaponMessages.noStats(playerTwo.name, params.weapon))
+            ctx.respond(
+                Localized(
+                    enUs = "**${playerTwo.name}** has no stats for \"${params.weapon.label}\".",
+                    ptBr = "**${playerTwo.name}** não possui estatísticas para \"${params.weapon.label}\".",
+                ),
+            )
             return@coroutineScope
         }
 

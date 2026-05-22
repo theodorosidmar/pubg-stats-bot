@@ -157,7 +157,7 @@ class DuelWeaponEmbedBuilderTest {
             playerTwoStats = p2,
         )
         val killsField = result.ptBr.fields.first {
-            it.name == DuelWeaponMessages.statLabel(DuelWeaponStat.KILLS).resolve(BotLocale.PT_BR)
+            it.name == DuelWeaponStat.KILLS.label.resolve(BotLocale.PT_BR)
         }
 
         assertTrue(killsField.value.contains("10"))

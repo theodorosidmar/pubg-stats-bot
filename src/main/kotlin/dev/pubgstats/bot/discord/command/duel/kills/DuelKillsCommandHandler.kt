@@ -8,12 +8,12 @@ import dev.pubgstats.bot.discord.command.CommandOption
 import dev.pubgstats.bot.discord.command.Localized
 import dev.pubgstats.bot.discord.command.PLAYER_ONE_OPTION
 import dev.pubgstats.bot.discord.command.PLAYER_TWO_OPTION
-import dev.pubgstats.bot.discord.command.RegularCommandHandler
-import dev.pubgstats.bot.discord.command.resolvePlayers
+import dev.pubgstats.bot.discord.command.duel.DuelParams
+import dev.pubgstats.bot.discord.command.duel.DuelSubCommandHandler
 
 class DuelKillsCommandHandler(
-    private val pubgApi: PubgApi,
-) : RegularCommandHandler<DuelKillsCommandHandler.Params>() {
+    pubgApi: PubgApi,
+) : DuelSubCommandHandler<DuelKillsCommandHandler.Params>(pubgApi) {
     override val name: String = "kills"
     override val description: Localized<String> = Localized(
         enUs = "Compare kills stats between two players",
@@ -21,10 +21,10 @@ class DuelKillsCommandHandler(
     )
 
     data class Params(
-        val playerOne: String,
-        val playerTwo: String,
+        override val playerOne: String,
+        override val playerTwo: String,
         val gameMode: GameMode,
-    )
+    ) : DuelParams
 
     override val options: List<CommandOption> = listOf(
         PLAYER_ONE_OPTION,
@@ -54,7 +54,7 @@ class DuelKillsCommandHandler(
     )
 
     override suspend fun execute(ctx: CommandContext, params: Params) {
-        val (playerOne, playerTwo) = pubgApi.resolvePlayers(params.playerOne, params.playerTwo)
+        val (playerOne, playerTwo) = resolveDuelPlayers(params)
 
         val (p1Stats, p2Stats) =
             pubgApi
@@ -62,12 +62,8 @@ class DuelKillsCommandHandler(
                     gameMode = params.gameMode,
                     accountIds = listOf(playerOne.id, playerTwo.id),
                 )
-                .associateBy {
-                    it.playerId
-                }
-                .let {
-                    it.getValue(playerOne.id) to it.getValue(playerTwo.id)
-                }
+                .associateBy { it.playerId }
+                .let { it.getValue(playerOne.id) to it.getValue(playerTwo.id) }
 
         ctx.respondEmbed(
             buildDuelKillsEmbed(
