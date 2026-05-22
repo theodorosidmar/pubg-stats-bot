@@ -21,6 +21,10 @@ interface CommandContext {
     fun requireBoolean(name: String): Boolean =
         checkNotNull(booleans[name]) { "Missing required boolean option: $name" }
 
+    fun requirePlayerOne(): String = requireString("player-one")
+
+    fun requirePlayerTwo(): String = requireString("player-two")
+
     suspend fun respond(content: String)
     suspend fun respond(content: Localized<String>) = respond(content.resolve(locale))
     suspend fun respondEmbed(embed: Localized<Embed>)

@@ -8,6 +8,8 @@ import dev.pubgstats.bot.cache.invoke
 import dev.pubgstats.bot.discord.command.CommandContext
 import dev.pubgstats.bot.discord.command.CommandOption
 import dev.pubgstats.bot.discord.command.Localized
+import dev.pubgstats.bot.discord.command.PLAYER_ONE_OPTION
+import dev.pubgstats.bot.discord.command.PLAYER_TWO_OPTION
 import dev.pubgstats.bot.discord.command.RegularCommandHandler
 import dev.pubgstats.bot.discord.command.resolvePlayers
 import kotlinx.coroutines.async
@@ -30,22 +32,8 @@ class DuelWeaponCommandHandler(
     )
 
     override val options: List<CommandOption> = listOf(
-        CommandOption.StringOption(
-            name = "player-one",
-            description = Localized(
-                enUs = "Player one",
-                ptBr = "Jogador um",
-            ),
-            required = true,
-        ),
-        CommandOption.StringOption(
-            name = "player-two",
-            description = Localized(
-                enUs = "Player two",
-                ptBr = "Jogador dois",
-            ),
-            required = true,
-        ),
+        PLAYER_ONE_OPTION,
+        PLAYER_TWO_OPTION,
         CommandOption.StringOption(
             name = "weapon",
             description = Localized(
@@ -58,8 +46,8 @@ class DuelWeaponCommandHandler(
     )
 
     override fun parseParams(ctx: CommandContext): Params = Params(
-        playerOne = ctx.requireString("player-one"),
-        playerTwo = ctx.requireString("player-two"),
+        playerOne = ctx.requirePlayerOne(),
+        playerTwo = ctx.requirePlayerTwo(),
         weapon = Weapon.forId(ctx.requireString("weapon")),
     )
 

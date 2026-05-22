@@ -38,3 +38,21 @@ sealed interface CommandOption {
         override val required: Boolean = false,
     ) : CommandOption
 }
+
+val PLAYER_ONE_OPTION = CommandOption.StringOption(
+    name = "player-one",
+    description = Localized(
+        enUs = "Player one",
+        ptBr = "Jogador um",
+    ),
+    required = true,
+)
+
+val PLAYER_TWO_OPTION = CommandOption.StringOption(
+    name = "player-two",
+    description = Localized(
+        enUs = "Player two",
+        ptBr = "Jogador dois",
+    ),
+    required = true,
+)
