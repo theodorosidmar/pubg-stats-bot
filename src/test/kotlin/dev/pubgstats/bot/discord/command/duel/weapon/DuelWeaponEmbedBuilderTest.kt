@@ -106,7 +106,7 @@ class DuelWeaponEmbedBuilderTest {
         )
         val damageField = result.enUs.fields.first { it.name == "Total Damage" }
 
-        assertTrue(damageField.value.contains("1234.50"))
+        assertTrue(damageField.value.contains("1,234.50"))
         assertTrue(damageField.value.contains("999.90"))
     }
 

@@ -64,8 +64,8 @@ private data class StatComparison(
     val p2Value: Double,
 ) {
     fun toField(locale: BotLocale, playerOneName: String, playerTwoName: String): Embed.Field {
-        val p1Formatted = formatStat(stat, p1Value)
-        val p2Formatted = formatStat(stat, p2Value)
+        val p1Formatted = formatStat(stat, p1Value, locale)
+        val p2Formatted = formatStat(stat, p2Value, locale)
         val value = when {
             p1Value > p2Value ->
                 "$GREEN_CIRCLE **$playerOneName**: $p1Formatted  |  $RED_CIRCLE $playerTwoName: $p2Formatted"
@@ -82,13 +82,18 @@ private data class StatComparison(
         )
     }
 
-    private fun formatStat(stat: DuelKillsStat, value: Double): String = when (stat) {
-        DuelKillsStat.DAMAGE_DEALT,
-        DuelKillsStat.LONGEST_KILL,
-        ->
-            String.format(Locale.US, "%.2f", value)
+    private fun formatStat(stat: DuelKillsStat, value: Double, locale: BotLocale): String {
+        val javaLocale = when (locale) {
+            BotLocale.EN_US -> Locale.US
+            BotLocale.PT_BR -> Locale.of("pt", "BR")
+        }
+        return when (stat) {
+            DuelKillsStat.DAMAGE_DEALT,
+            DuelKillsStat.LONGEST_KILL,
+            -> String.format(javaLocale, "%,.2f", value)
 
-        else -> value.toInt().toString()
+            else -> String.format(javaLocale, "%,d", value.toInt())
+        }
     }
 }
 
