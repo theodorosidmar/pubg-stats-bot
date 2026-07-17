@@ -2,7 +2,7 @@
 # Plugins
 kotlin = "2.4.0-RC"
 detekt = "2.0.0-alpha.3"
-kotlinx-kover = "0.9.8"
+kotlinx-kover = "0.9.9"
 
 # Dependencies
 kord = "0.18.1"
